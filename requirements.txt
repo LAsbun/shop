@@ -1,0 +1,8 @@
+#base
+Django==1.8
+Pillow
+MySQL-python
+
+django-treebeard
+
+django-widget-tweaks
