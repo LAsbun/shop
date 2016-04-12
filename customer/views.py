@@ -17,7 +17,7 @@ from django.core.urlresolvers import reverse
 from customer.forms import EmailUserCreationForm, UserLoginForm
 from customer.mixin import RegisterUserMixin
 
-from customer.utils import normalise_email
+from customer.utils import get_right_user
 # from customer.models import User
 # Create your views here.
 
@@ -41,13 +41,6 @@ def index(request):
     return render_to_response('index.html', msg)
 
 def login(request):
-
-    def get_right_user(accountname, pwd):
-        user = authenticate(email=accountname, password=pwd)
-        if user is None:
-
-            return authenticate(username=accountname, password=pwd)
-
     msg = {}
     msg['registration_form'] = EmailUserCreationForm()
     if request.method == 'POST':
@@ -58,7 +51,7 @@ def login(request):
             user = get_right_user(accountname, pwd)
 
             request.session['is_login'] = user.username
-            return  redirect(index)
+            return redirect(index)
         else:
             msg['login_form'] = form
             return render_to_response('customer/login_registration.html', msg, context_instance=RequestContext(request))

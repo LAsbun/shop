@@ -4,8 +4,16 @@ __author__ = 'sws'
 
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
-
+from django.contrib.auth import authenticate
 # from customer.models import User
+
+# 判断是否与邮箱或用户名相匹配
+def get_right_user(accountname, pwd):
+        user = authenticate(email=accountname, password=pwd)
+        print accountname, pwd
+        if user is None:
+            return authenticate(username=accountname, password=pwd)
+        return user
 
 class CommonPasswordValidator(validators.BaseValidator):
     # See http://www.smartplanet.com/blog/business-brains/top-20-most-common-passwords-of-all-time-revealed-8216123456-8216princess-8216qwerty/4519  # noqa
@@ -65,6 +73,7 @@ password_validators = [
     validators.MinLengthValidator(6),
     CommonPasswordValidator
 ]
+
 
 def normalise_email(email):
     """

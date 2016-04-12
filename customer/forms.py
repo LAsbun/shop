@@ -7,7 +7,7 @@ import string
 
 from django import forms
 from django.conf import settings
-from django.contrib.auth import forms as auth_forms
+from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
@@ -15,7 +15,7 @@ from django.utils.http import is_safe_url
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import pgettext_lazy
 
-from customer.utils import password_validators, normalise_email
+from customer.utils import password_validators, get_right_user
 # from customer.models import User
 
 from django.contrib.auth.models import User
@@ -36,7 +36,9 @@ def generate_username():
 
 
 class UserLoginForm(forms.Form):
-    accountname = forms.CharField(label='用户名/邮箱', min_length=1)
+    accountname = forms.CharField(label='用户名/邮箱', min_length=1,
+
+    )
     password = forms.CharField(
         label = _('Password'), widget=forms.PasswordInput,
         validators = password_validators
@@ -52,6 +54,15 @@ class UserLoginForm(forms.Form):
             )
         return accountname
 
+    def clean_password(self):
+        accountname = self.cleaned_data.get('accountname', '')
+        pwd = self.cleaned_data.get('password', '')
+        user = get_right_user(accountname=accountname, pwd=pwd)
+        if user is None:
+            raise forms.ValidationError(
+                '账号或密码错误'
+            )
+        return pwd
 
 
 class EmailUserCreationForm(forms.ModelForm):

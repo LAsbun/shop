@@ -41,9 +41,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # Third
     'widget_tweaks',
-
+    'treebeard',
     # myapp
     'customer',
     'category',
@@ -65,7 +65,7 @@ ROOT_URLCONF = 'shop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.request',
             ],
         },
     },
@@ -127,6 +128,10 @@ STATICFILES_FINDERS=(
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
+# MEDIA_ROOT
+MEDIA_ROOT = os.path.join(STATIC_URL, 'images')
+
+
 # # log root
 # LOG_ROOT = locate('log')
 #
@@ -149,3 +154,6 @@ STATICFILES_FINDERS=(
 
 # DEFAULT LOGIN URL
 # LOGIN_REDIRECT_URL =
+
+# File && image
+IMAGE_UPLOAD_FOLDER = 'image'
