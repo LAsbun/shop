@@ -2,7 +2,7 @@
 #coding:utf-8
 __author__ = 'sws'
 
-from django.conf.urls import url, patterns
+from django.conf.urls import url
 
 
 from customer.views import index, registration, login, logout

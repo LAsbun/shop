@@ -16,6 +16,7 @@ from django.core.urlresolvers import reverse
 
 from customer.forms import EmailUserCreationForm, UserLoginForm
 from customer.mixin import RegisterUserMixin
+from category.views import index
 
 from customer.utils import get_right_user
 # from customer.models import User
@@ -31,14 +32,6 @@ class LogOutView(RedirectView):
 
         return response
 
-
-def index(request):
-    msg = {}
-    username = request.session.get('is_login', None)
-    if username:
-        msg['user'] = username
-        msg['logout'] = 'Logout'
-    return render_to_response('index.html', msg)
 
 def login(request):
     msg = {}

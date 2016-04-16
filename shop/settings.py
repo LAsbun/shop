@@ -120,6 +120,7 @@ STATIC_ROOT = locate('../public/static')
 # static file dirs
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
+    # '/home/sws/onlineshop/shop/images'
 )
 
 # static files finder
@@ -128,8 +129,10 @@ STATICFILES_FINDERS=(
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-# MEDIA_ROOT
-MEDIA_ROOT = os.path.join(STATIC_URL, 'images')
+#Media_url
+MEDIA_URL = 'uploads/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR,'images/upload/')
 
 
 # # log root
@@ -156,4 +159,4 @@ MEDIA_ROOT = os.path.join(STATIC_URL, 'images')
 # LOGIN_REDIRECT_URL =
 
 # File && image
-IMAGE_UPLOAD_FOLDER = 'image'
+IMAGE_UPLOAD_FOLDER = 'images'

@@ -12,6 +12,12 @@ class CategoryAdmin(TreeAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name',)
+    class Media:
+        js = (
+            '/static/js/kindeditor-4.1.10/kindeditor.js',
+            '/static/js/kindeditor-4.1.10/lang/zh_CN.js',
+            '/static/js/kindeditor-4.1.10/config.js'
+        )
 
 
 class ProductAttributeAdmin(admin.ModelAdmin):

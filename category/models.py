@@ -25,7 +25,7 @@ class Category(MP_Node):
     """
     name = models.CharField('分类名', max_length=255, db_index=True)
     description = models.TextField('分类描述', blank=True)
-    image = models.ImageField('图片', upload_to='categories', blank=True,
+    image = models.ImageField('图片', upload_to='images/categories', blank=True,
                               null=True, max_length=255)
     slug = models.SlugField('简单描述', max_length=255, db_index=True)
 
@@ -366,7 +366,10 @@ class ProductAttributeValue(models.Model):
 
     def __unicode__(self):
         return self.attribute.type
+
+
     class Meta:
+        ordering = ['-attribute']
         verbose_name_plural = verbose_name = '附加属性值'
 # 产品
 class Product(models.Model):
@@ -417,6 +420,7 @@ class Product(models.Model):
 
     class Meta:
         verbose_name_plural = verbose_name = '产品'
+        ordering = ['date_create']
 
 # 推荐产品
 class RecommendProduct(models.Model):
@@ -429,6 +433,8 @@ class RecommendProduct(models.Model):
         _('Ranking'), default=0,
         help_text=_('Determines order of the products. A product with a higher'
                     ' value will appear before one with a lower ranking.'))
+
+
 
     class Meta:
         # abstract = True
