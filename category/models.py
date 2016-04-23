@@ -145,7 +145,7 @@ class Category(MP_Node):
         ordering = ['path']
         verbose_name = '产品目录'
         verbose_name_plural = verbose_name
-
+    @property
     def has_children(self):
         return self.get_num_children() > 0
 

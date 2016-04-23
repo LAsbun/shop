@@ -4,7 +4,7 @@
 {% block content %}
 
     {#                  展示商品   #}
-
+    <h2>{{ cate_name }}</h2>
     <div class="item">
         <ul class="thumbnails">
             {% for product in product_list %}
@@ -45,35 +45,7 @@
     {% endautoescape %}
 {% endblock %}
 
-
 {% block side_menu %}
-
-    {#    {% set a = 1 %}#}
-    {##}
-    {#    <ul id="sideManu" class="nav nav-tabs nav-stacked">#}
-    {#        {% for cate in cate_list %}#}
-    {#            {% if a == 1 %}#}
-    {#                <li class="subMenu open"><a href=""> {{ cate.name }}</a>#}
-    {#                <ul style="display:block">#}
-    {#                {% set a = 0 %}#}
-    {#            {% else %}#}
-    {#                <li class="subMenu"><a href=""> {{ cate.name }}</a>#}
-    {#                <ul style="display:none">#}
-    {#            {% endif %}#}
-    {##}
-    {#        <li>#}
-    {#            <ul style="display: block">#}
-    {#                {% for children in cate|getchildren %}#}
-    {##}
-    {#                    <a><i class="icon-chevron-right"></i>{{ children.name }}</a></li>#}
-    {#                {% endfor %}#}
-    {#        </ul>#}
-    {#        </ul>#}
-    {##}
-    {#        </li>#}
-    {##}
-    {#        {% endfor %}#}
-    {#    </ul>#}
     {% set a = 1 %}
     <ul d="sideManu" class="nav nav-tabs nav-stacked">
         {% for cate in cate_list %}
@@ -90,7 +62,13 @@
 
         {% for child in cate|getchildren %}
             {#                <li><a class="active" href="products.html"><i class="icon-chevron-right"></i>{{ child.name }} </a></li>#}
-            <li><a href="{% url 'category_list' child.id %}"><i class="icon-chevron-right"></i>{{ child.name }}</a></li>
+            <li><a href="{% url 'category_list' child.id %}"
+                   {% if cate_id == child.id %}
+                        class="active"
+
+                    {% endif %}
+
+                    ><i class="icon-chevron-right"></i>{{ child.name }}</a></li>
 
         {% endfor %}
         </ul>

@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^customer/', include(customer_urls)),
     # 分类，产品相关
     url(r'^category/', include(category_url)),
+    # 首页
     url(r'^$', index, name="index"),
 ]
 
