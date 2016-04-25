@@ -341,9 +341,9 @@ class AbstractAddress(models.Model):
         _("Third line of address"), max_length=255, blank=True)
     line4 = models.CharField(_("City"), max_length=255, blank=True)
     state = models.CharField(_("State/County"), max_length=255, blank=True)
-    postcode = models.UppercaseCharField(
+    postcode = models.CharField(
         _("Post/Zip-code"), max_length=64, blank=True)
-    country = models.ForeignKey('address.Country', verbose_name=_("Country"))
+
 
     #: A field only used for searching addresses - this contains all the
     #: relevant fields.  This is effectively a poor man's Solr text field.
