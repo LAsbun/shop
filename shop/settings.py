@@ -27,7 +27,7 @@ locate = lambda x:os.path.join(
 SECRET_KEY = '$g_#m5zx#^l6+4fp=2v6qn5yzgcno21t4^9q61!0*#u=^@0j(t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1:8010']
 
@@ -166,3 +166,8 @@ IMAGE_UPLOAD_FOLDER = 'images'
 # Address settings
 OSCAR_REQUIRED_ADDRESS_FIELDS = ('first_name', 'last_name', 'line1',
                                  'line4', 'postcode', 'country')
+
+# Basket settings
+BASKET_COOKIE_LIFETIME = 7 * 24 * 60 * 60
+BASKET_COOKIE_SECURE = False
+MAX_BASKET_QUANTITY_THRESHOLD = 10000
