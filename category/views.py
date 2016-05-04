@@ -6,6 +6,7 @@ from math import ceil
 
 from django.shortcuts import render_to_response, redirect
 from django.http import HttpResponseNotFound
+from django.template.context import RequestContext
 
 from category.models import Product, Category
 from category.utils import get_list_randon_int, Paginor, PagiInfo, try_int
@@ -32,7 +33,7 @@ def index(request):
     product_list = Product.objects.all()[:each_page_num]
 
     pageobj = PagiInfo(1, product_total, each_page_num)
-    page = Paginor(1, pageobj.total_pages,url_string='/category/product_list/')
+    page = Paginor(1, pageobj.total_pages,url_string='/category/product_list/', )
     msg['paginator'] = page
     #product
     msg['product_list'] = product_list
@@ -48,7 +49,12 @@ def index(request):
         # print "ss"
     msg['cate_list'] = cate_list
 
-    return render_to_response('index.html', msg)
+    # basket
+    next_url = request.GET.get('next', None)
+    # print next_url
+    msg['next_url'] = next_url
+
+    return render_to_response('index.html', msg, context_instance=RequestContext(request))
 
 
 def product_detail(request, id):
@@ -73,7 +79,7 @@ def product_detail(request, id):
     msg['related_product'] = related_product
     msg['side_product'] = map(get_relate_product, get_list_randon_int(2, stop=total_product))
 
-    return  render_to_response('category/product_detail.html', msg)
+    return  render_to_response('category/product_detail.html', msg, context_instance=RequestContext(request))
 
 def get_relate_product(id):
     # 得到相关的商品

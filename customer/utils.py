@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate
 # 判断是否与邮箱或用户名相匹配
 def get_right_user(accountname, pwd):
         user = authenticate(email=accountname, password=pwd)
-        print accountname, pwd
+
         if user is None:
             return authenticate(username=accountname, password=pwd)
         return user

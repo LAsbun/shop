@@ -13,7 +13,7 @@ from category.models import Product
 class Basket(models.Model):
 
     owner = models.ForeignKey(
-        User, related_name='baskets', null=True,
+        User, related_name='baskets',
         verbose_name= '拥有者'
     )
 
@@ -28,12 +28,12 @@ class Basket(models.Model):
     )
 
     status = models.CharField(
-        choices=STATUS_CHOICES, max_length=128, default=OPEN,
+        choices=STATUS_CHOICES, max_length=128, default=OPEN, null=True,
         verbose_name='交易状态'
     )
 
     date_create = models.DateTimeField(
-        verbose_name='添加时间'
+        verbose_name='添加时间', auto_now_add=True
     )
 
     date_submitted = models.DateTimeField(
@@ -110,7 +110,7 @@ class Line(models.Model):
     )
 
     date_create = models.DateTimeField(
-        auto_now_add=True, verbose_name='创建时间'
+        auto_now_add=True, verbose_name='创建时间',null=True
     )
 
 

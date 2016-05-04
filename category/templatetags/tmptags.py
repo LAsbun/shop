@@ -13,7 +13,7 @@ register = template.Library()
 def getchildren(value):
     try:
         chils = value.get_children()
-        print chils
+        # print chils
         return chils
     except:
         pass

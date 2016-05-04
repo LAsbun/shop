@@ -48,6 +48,7 @@
                             </div>
                         {% endif %}
                     {% endfor %}
+                    <input type="hidden", name="next_url", value="{{ next_url }}">
                     <div class="controls">
                         {#                <button type="submit" class="btn block">注册</button>#}
                         <button name="login_submit" type="submit" value="login" class="btn btn-lg btn-primary" data-loading-text="正在登陆中">登陆</button>
@@ -90,6 +91,7 @@
                             </div>
                         {% endif %}
                     {% endfor %}
+                    <input type="hidden", name="next_url", value="{{ next_url }}">
                     <div class="controls">
                         {#                <button type="submit" class="btn block">注册</button>#}
                         <button name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-primary" data-loading-text="正在注册中">注册</button>

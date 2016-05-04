@@ -65,6 +65,8 @@ class UserLoginForm(forms.Form):
         return pwd
 
 
+
+
 class EmailUserCreationForm(forms.ModelForm):
     username = forms.CharField(label=_('username'))
     email = forms.EmailField(label='邮箱')
@@ -75,9 +77,7 @@ class EmailUserCreationForm(forms.ModelForm):
     password2 = forms.CharField(
         label='确认密码', widget=forms.PasswordInput
     )
-    redirect_url = forms.CharField(
-        widget=forms.HiddenInput, required=False
-    )
+
 
     class Meta:
         model=User
@@ -100,14 +100,3 @@ class EmailUserCreationForm(forms.ModelForm):
                 # _('The password mismatch the former one.')
                 '密码不一致'
             )
-
-    def clean_redirect_url(self):
-        """
-        防止在地址栏输入其他的url
-        :return:
-        """
-        url = self.cleaned_data['redirect_url'].strip()
-
-        if url and is_safe_url(url, self.host):
-            return url
-        return settings.LOGIN_REDIRECT_URL

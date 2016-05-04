@@ -8,6 +8,7 @@ import customer.urls as customer_urls
 from category.views import index
 from shop.upload import upload_image
 import category.urls as category_url
+import basket.urls as basket_url
 
 urlpatterns = [
     # Examples:
@@ -26,7 +27,9 @@ urlpatterns = [
     # 登录注册相关
     url(r'^customer/', include(customer_urls)),
     # 分类，产品相关
-    url(r'^category/', include(category_url)),
+    url(r'^category/', include(category_url, namespace='category')),
+    # 购物车
+    url(r'^basket/', include(basket_url)),
     # 首页
     url(r'^$', index, name="index"),
 ]
