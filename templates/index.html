@@ -10,7 +10,7 @@
             {% for product in product_list %}
                 <li class="span3">
                     <div class="thumbnail">
-                        <a  href="{% url 'category:product_detail' product.id %}"><img src="{{ product.images_url }}" alt=""/></a>
+                        <a  href="{% url 'category:product_detail' product.id %}"><img src="{{ product.image.url }}" alt=""/></a>
                         <div class="caption">
                             <h5>{{ product.name }}</h5>
                             <p>

@@ -55,7 +55,7 @@ def login(request):
                 auth_login(request, user=user)
 
             request.session['is_login'] = user.username
-            if nex:
+            if nex != 'None':
 
                 temp = nex.strip().split('/') #处理next_url
                 return HttpResponseRedirect(reverse(temp[2], kwargs={'pk':temp[3]}))

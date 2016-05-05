@@ -388,7 +388,7 @@ class Product(models.Model):
         'category.Category', verbose_name= '产品所属目录分类',
     )
 
-    images = models.ImageField(
+    image = models.ImageField(
         upload_to='product/%Y/%m/%d', verbose_name='图片', null=True
     )
 

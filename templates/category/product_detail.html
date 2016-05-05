@@ -10,8 +10,8 @@
     </ul>
     <div class="row">
         <div id="gallery" class="span3">
-            <a href="{{ image.value_image.url }}" title="{{ product.name }}">
-                <img src="{{ image.value_image.url }}" style="width:100%" alt="{{ product.name }}">
+            <a href="{{ product.image.url }}" title="{{ product.name }}">
+                <img src="{{ product.image.url }}" style="width:100%" alt="{{ product.name }}">
             </a>
             <hr/>
             <div id="differentview" class="moreOptopm carousel slide">
@@ -44,7 +44,7 @@
 {#                        <label > 数量： <input type="number" class="span1" placeholder=""></label>#}
                         <form action="{% url 'add_to_basket' product.id %}" method="post" name="add_to_basket" >
                             {% csrf_token %}
-                            <label > 数量： <input type="number" name='quantity', min="1", max="{{ product.store_count }}" class="span1" placeholder="1" ></label>
+                            <label > 数量： <input type="number" name='quantity', min="1", max="{{ product.store_count }}" value="1" class="span1"  ></label>
                             <button class="btn btn-primary" data-loading-text="添加中.."> 加入购物车</button>
                         </form>                    </div>
                 </div>

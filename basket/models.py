@@ -74,9 +74,7 @@ class Basket(models.Model):
         if self._lines is None:
             self._lines = (
                 self.lines
-                    .select_related('product', )
-                    .prefetch_related(
-                    'attributes', 'product__images'))
+                    .select_related('product__image'))
         return self._lines
 
     @property
@@ -116,15 +114,13 @@ class Line(models.Model):
 
     class Meta:
         verbose_name_plural = verbose_name = '购物商品行'
-
-
+        ordering = ['-product__id']
     def __unicode__(self):
         return _(
             u"Basket #%(basket_id)d, Product #%(product_id)d, quantity"
             u" %(quantity)d") % {'basket_id': self.basket.pk,
                                  'product_id': self.product.pk,
                                  'quantity': self.quantity}
-
 
     def save(self, *args, **kwargs):
         if not self.basket.can_be_edited:

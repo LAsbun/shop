@@ -9,7 +9,7 @@ from django.http import HttpResponseNotFound
 from django.template.context import RequestContext
 
 from category.models import Product, Category
-from category.utils import get_list_randon_int, Paginor, PagiInfo, try_int
+from shop.utils import get_list_randon_int, Paginor, PagiInfo, try_int
 
 # Create your views here.
 

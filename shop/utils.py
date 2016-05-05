@@ -114,3 +114,10 @@ def try_int(num, default = 0):
     except:
         return default
 
+def try_float(num, default=0.0):
+    try:
+        return float(num)
+    except:
+        return default
+
+

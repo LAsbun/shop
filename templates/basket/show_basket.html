@@ -1,7 +1,133 @@
 {% extends 'base.html' %}
+{% load mul from basket_tags %}
 
 {% block content %}
-    {{ product.name }}
-    {{ product.retail }}
-    {{ quantity }}
+    <div class="span9">
+        <ul class="breadcrumb">
+            <li><a href="{% url 'index' %}">首页</a> <span class="divider">/</span></li>
+            <li class="active"> 购物车</li>
+        </ul>
+        <h3>  购物车 [ {{ basket.num_lines }} ]
+            <a href="{% url 'category:product_list' 1 %}" class="btn btn-large pull-right"><i class="icon-arrow-left"></i>
+                继续购物
+            </a>
+        </h3>
+        <hr class="soft">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Quantity/Update</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+{#        {% for line in basket.all_lines %}#}
+{#            {{  line.product.name}}#}
+{#        {% endfor %}#}
+            <tbody>
+            {% for line in basket.all_lines %}
+                <tr>
+                    <td> <img width="60" src="{{ line.product.image.url }}" alt=""></td>
+                    <td>{{ line.product.name }}
+                    <td>
+                        <div class="input-append">
+                            <input class='span3' type="number" size="6" placeholder="{{ line.quantity }}"
+                                    min="1" max="{{ line.product.store_count }}" name="quantity_{{ line.product.name }}"/>
+{#                            <input style="max-width:34px" placeholder="{{ line.quantity }}"#}
+{#                                   id="appendedInputButtons" size="16" type="number" min="1" max="{{ line.product.store_count }}">#}
+                            <button class="btn" type="button">
+                                <i class="icon-minus"></i>
+                            </button>
+                            <button class="btn" type="button">
+                                <i class="icon-plus"></i>
+                            </button>
+                            <button class="btn btn-danger" type="button">
+                                <i class="icon-remove icon-white"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td>￥{{ line.product.retail}}</td>
+                    <td id="single_product_total" >￥{{ line.product.retail|mul:line.quantity }}</td>
+                </tr>
+            {% endfor %}
+
+            <tr>
+                <td colspan="6" style="text-align:right">Total Price:	</td>
+                <td id="total_price"> $228.00</td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align:right"><strong>TOTAL =</strong></td>
+                <td id="total_price" class="label label-important" style="display:block"> <strong> $155.00 </strong></td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <table class="table table-bordered">
+            <tbody>
+            <tr>
+                <td>
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label"><strong> VOUCHERS CODE: </strong> </label>
+                            <div class="controls">
+                                <input type="text" class="input-medium" placeholder="CODE">
+                                <button type="submit" class="btn"> ADD </button>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+
+        <table class="table table-bordered">
+            <tbody><tr><th>ESTIMATE YOUR SHIPPING </th></tr>
+            <tr>
+                <td>
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label" for="inputCountry">Country </label>
+                            <div class="controls">
+                                <input type="text" id="inputCountry" placeholder="Country">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputPost">Post Code/ Zipcode </label>
+                            <div class="controls">
+                                <input type="text" id="inputPost" placeholder="Postcode">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="controls">
+                                <button type="submit" class="btn">ESTIMATE </button>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            </tbody></table>
+        <a href="products.html" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
+        <a href="login.html" class="btn btn-large pull-right">Next <i class="icon-arrow-right"></i></a>
+
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    $(document).ready(function(){
+
+    con = $('td#single_product_total');
+    var sum = 0.0;
+    for(var i = 0; i < con.length; ++ i)
+    {
+        sum += parseFloat(con[i].innerHTML.slice(1));
+    }
+    $("td#total_price")[0].innerHTML ='￥'+sum;
+    $("td#total_price")[0].style.color="red";
+    $("td#total_price")[1].innerHTML ='￥'+sum;
+});
+
 {% endblock %}
