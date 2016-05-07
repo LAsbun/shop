@@ -19,6 +19,7 @@ from customer.mixin import RegisterUserMixin
 from category.views import index
 
 from customer.utils import get_right_user
+from shop.utils import try_int
 # from customer.models import User
 # Create your views here.
 
@@ -57,8 +58,12 @@ def login(request):
             request.session['is_login'] = user.username
             if nex != 'None':
 
-                temp = nex.strip().split('/') #处理next_url
-                return HttpResponseRedirect(reverse(temp[2], kwargs={'pk':temp[3]}))
+                temp = nex.split('/') #处理next_url
+
+                if temp[-1] != u'':
+                    return redirect(reverse('%s:%s' %(temp[1],temp[2]), kwargs={'pk':try_int(temp[3])}))
+                else:
+                    return redirect(reverse('%s:%s' %(temp[1],temp[2]), kwargs={}))
             else:
                 return redirect(index)
         else:
@@ -77,7 +82,7 @@ def registration(request):
         # print type(request.POST)
         formss = EmailUserCreationForm(request.POST)
 
-        print formss.is_bound
+        # print formss.is_bound
         if formss.is_valid():
             cleaned_data = formss.cleaned_data
             username = cleaned_data['username']

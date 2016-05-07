@@ -10,7 +10,7 @@ from django.template.context import RequestContext
 
 from category.models import Product, Category
 from shop.utils import get_list_randon_int, Paginor, PagiInfo, try_int
-
+from basket.models import Basket
 # Create your views here.
 
 
@@ -23,11 +23,22 @@ if product_total % each_page_num != 0:
 
 def index(request):
     msg = {}
+
+    # ---------------
+    # Login
     username = request.session.get('is_login', None)
     if username:
         msg['user'] = username
         msg['logout'] = 'Logout'
 
+    # basket
+    try:
+        bsobj = Basket.objects.get(owner__username=username)
+    except:
+        bsobj = None
+    msg['basket'] = bsobj
+
+    #-----------------
 
     # paginator
     product_list = Product.objects.all()[:each_page_num]
@@ -54,6 +65,8 @@ def index(request):
     # print next_url
     msg['next_url'] = next_url
 
+
+
     return render_to_response('index.html', msg, context_instance=RequestContext(request))
 
 
@@ -79,6 +92,20 @@ def product_detail(request, id):
     msg['related_product'] = related_product
     msg['side_product'] = map(get_relate_product, get_list_randon_int(2, stop=total_product))
 
+     # ---------------
+    # Login
+    username = request.session.get('is_login', None)
+    if username:
+        msg['user'] = username
+        msg['logout'] = 'Logout'
+
+    # basket
+    try:
+        bsobj = Basket.objects.get(owner__username=username)
+    except:
+        bsobj = None
+    msg['basket'] = bsobj
+    # -----------------
     return  render_to_response('category/product_detail.html', msg, context_instance=RequestContext(request))
 
 def get_relate_product(id):
@@ -106,21 +133,31 @@ def product_list(request, page):
     product_list = Product.objects.all()[pageobj.start:pageobj.end]
     msg['paginator'] = page
     msg['product_list'] = product_list
+    # ---------------
+    # Login
+    username = request.session.get('is_login', None)
+    if username:
+        msg['user'] = username
+        msg['logout'] = 'Logout'
 
+    # basket
+    try:
+        bsobj = Basket.objects.get(owner__username=username)
+    except:
+        bsobj = None
+    msg['basket'] = bsobj
+    # -----------------
     return render_to_response('index.html', msg)
 
 
 def category_list(request, cate):
+    print cate
     msg = {}
     try:
         page = try_int(request.GET.get('page', 1))
 
         cate_obj = Category.objects.get(id=cate)
         product_list = Product.objects.filter(category=cate_obj)
-        # print product_list
-        if cate_obj.has_children:
-            for child in cate_obj.get_children():
-                product_list.append(Product.objects.filter(category=cate_obj))
 
         # paginator
         pageobj = PagiInfo(1, len(product_list), each_page_num)
@@ -142,7 +179,20 @@ def category_list(request, cate):
         msg['cate_list'] = cate_list
 
         msg['cate_id'] = cate
+         # ---------------
+        # Login
+        username = request.session.get('is_login', None)
+        if username:
+            msg['user'] = username
+            msg['logout'] = 'Logout'
 
+        # basket
+        try:
+            bsobj = Basket.objects.get(owner__username=username)
+        except:
+            bsobj = None
+        msg['basket'] = bsobj
+        # -----------------
         return render_to_response('category/categoties.html', msg)
 
     except Exception, e:

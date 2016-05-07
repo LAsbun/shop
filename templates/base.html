@@ -39,13 +39,15 @@
             </strong></div>
             <div class="span6">
                 <div class="pull-right">
-                    <a href="product_summary.html"><span class="">Fr</span></a>
-                    <a href="product_summary.html"><span class="">Es</span></a>
-                    <span class="btn btn-mini">En</span>
-                    <a href="product_summary.html"><span>&pound;</span></a>
-                    <span class="btn btn-mini">$155.00</span>
-                    <a href="product_summary.html"><span class="">$</span></a>
-                    <a href="product_summary.html"><span class="btn btn-mini btn-primary"><i class="icon-shopping-cart icon-white"></i> [ 3 ] Itemes in your cart </span> </a>
+                    <a href="{% url 'basket:show_basket' %}">
+                        <span class="btn btn-mini btn-primary">
+                            <i class="icon-shopping-cart icon-white"></i>
+
+                            [
+                            {% if basket %}{{ basket.num_lines }}{% else %} 0 {% endif %}
+                            ] 件商品在购物车 </span> </a>
+
+
                 </div>
             </div>
         </div>
@@ -58,7 +60,7 @@
             </a>
             <div class="navbar-inner">
                 <a class="brand" href="{% url 'index' %}"><img src="{% static "themes/images/logo.png" %}" alt="Bootsshop"/></a>
-                <form class="form-inline navbar-search" method="post" action="products.html" >
+                <form class="form-inline navbar-search" method="get" action="" >
                     <input id="srchFld" class="srchTxt" type="text" />
                     <select class="srchTxt">
                         <option>All</option>
@@ -71,14 +73,13 @@
                     <button type="submit" id="submitButton" class="btn btn-primary">Go</button>
                 </form>
                 <ul id="topMenu" class="nav pull-right">
-                    <li class=""><a href="special_offer.html">Specials Offer</a></li>
-                    <li class=""><a href="normal.html">Delivery</a></li>
-                    <li class=""><a href="contact.html">Contact</a></li>
+                    <li class=""><a href="{% url 'category:product_list' 1 %}">商品列表</a></li>
+                    <li class=""><a href="{% url 'basket:show_basket' %}">购物车</a></li>
                     <li class="">
                         {% if not logout %}
-                            <a href="{% url 'login' %}" role="button" data-toggle="modal" style="padding-right:0"><span class="btn btn-large btn-success">Login</span></a>
+                            <a href="{% url 'customer:login' %}" role="button" data-toggle="modal" style="padding-right:0"><span class="btn btn-large btn-success">Login</span></a>
                         {% else %}
-                            <a href="{% url 'logout' %}" role="button" data-toggle="modal" style="padding-right:0"><span class="btn btn-large btn-success">{{ logout }}</span></a>
+                            <a href="{% url 'customer:logout' %}" role="button" data-toggle="modal" style="padding-right:0"><span class="btn btn-large btn-success">{{ logout }}</span></a>
 
                         {% endif %}
                     </li>
@@ -93,58 +94,32 @@
         <div class="carousel-inner">
             <div class="item active">
                 <div class="container">
-                    <a href="register.html"><img style="width:100%" src="{% static "themes/images/carousel/1.png" %}" alt="special offers"/></a>
-                    <div class="carousel-caption">
-                        <h4>Second Thumbnail label</h4>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    </div>
+                    <a href='javascript:;'><img style="width:100%" src="{% static "themes/images/carousel/1.png" %}" alt="special offers"/></a>
                 </div>
             </div>
             <div class="item">
                 <div class="container">
-                    <a href="register.html"><img style="width:100%" src="{% static "themes/images/carousel/2.png" %}" alt=""/></a>
-                    <div class="carousel-caption">
-                        <h4>Second Thumbnail label</h4>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    </div>
+                    <a href="javascript:;"><img style="width:100%" src="{% static "themes/images/carousel/2.png" %}" alt=""/></a>
                 </div>
             </div>
             <div class="item">
                 <div class="container">
-                    <a href="register.html"><img src="{% static "themes/images/carousel/3.png" %}" alt=""/></a>
-                    <div class="carousel-caption">
-                        <h4>Second Thumbnail label</h4>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    </div>
-
+                    <a href="javascript:;"><img src="{% static "themes/images/carousel/3.png" %}" alt=""/></a>
                 </div>
             </div>
             <div class="item">
                 <div class="container">
-                    <a href="register.html"><img src="{% static "themes/images/carousel/4.png" %}" alt=""/></a>
-                    <div class="carousel-caption">
-                        <h4>Second Thumbnail label</h4>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    </div>
-
+                    <a href="javascript:;"><img src="{% static "themes/images/carousel/4.png" %}" alt=""/></a>
                 </div>
             </div>
             <div class="item">
                 <div class="container">
-                    <a href="register.html"><img src="{% static "themes/images/carousel/5.png" %}" alt=""/></a>
-                    <div class="carousel-caption">
-                        <h4>Second Thumbnail label</h4>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    </div>
+                    <a href="javascript:;"><img src="{% static "themes/images/carousel/5.png" %}" alt=""/></a>
                 </div>
             </div>
             <div class="item">
                 <div class="container">
-                    <a href="register.html"><img src="{% static "themes/images/carousel/6.png" %}" alt=""/></a>
-                    <div class="carousel-caption">
-                        <h4>Second Thumbnail label</h4>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    </div>
+                    <a href="javascript:;"><img src="{% static "themes/images/carousel/6.png" %}" alt=""/></a>
                 </div>
             </div>
         </div>
@@ -159,7 +134,12 @@
             <div id="sidebar" class="span3">
                 {% block side_content %} {% endblock %}
                 <div id="sidebar" class="span3">
-                    <div class="well well-small"><a id="myCart" href="product_summary.html"><img src="{% static "themes/images/ico-cart.png" %}" alt="cart">3 Items in your cart  <span class="badge badge-warning pull-right">$155.00</span></a></div>
+                    <div class="well well-small"><a id="myCart" href="{% url 'basket:show_basket' %}">
+                        <img src="{% static "themes/images/ico-cart.png" %}" alt="cart">
+                         [
+                            {% if basket %}{{ basket.num_lines }}{% else %} 0 {% endif %}
+                            ] 件商品在购物车
+                        </a></div>
                     {% block side_menu %}{% endblock %}
                     <br/>
                     <div class="thumbnail">
@@ -240,60 +220,6 @@
 <script src="{% static "themes/js/bootshop.js" %}"></script>
 <script src="{% static "themes/js/jquery.lightbox-0.5.js" %}"></script>
 
-<!-- Themes switcher section ============================================================================================= -->
-<div id="secectionBox">
-    <link rel="stylesheet" href="{% static "themes/switch/themeswitch.css" %}" type="text/css" media="screen" />
-    <script src="{% static "themes/switch/theamswitcher.js" %}" type="text/javascript" charset="utf-8"></script>
-    <div id="themeContainer">
-        <div id="hideme" class="themeTitle">Style Selector</div>
-        <div class="themeName">Oregional Skin</div>
-        <div class="images style">
-            <a href="{% static "themes/css/#" %}" name="bootshop"><img src="{% static "themes/switch/images/clr/bootshop.png" %}" alt="bootstrap business templates" class="active"></a>
-            <a href="{% static "themes/css/#" %}" name="businessltd"><img src="{% static "themes/switch/images/clr/businessltd.png" %}" alt="bootstrap business templates" class="active"></a>
-        </div>
-        <div class="themeName">Bootswatch Skins (11)</div>
-        <div class="images style">
-            <a href="{% static "themes/css/#" %}" name="amelia" title="Amelia"><img src="{% static "themes/switch/images/clr/amelia.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="spruce" title="Spruce"><img src="{% static "themes/switch/images/clr/spruce.png" %}" alt="bootstrap business templates" ></a>
-            <a href="{% static "themes/css/#" %}" name="superhero" title="Superhero"><img src="{% static "themes/switch/images/clr/superhero.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="cyborg"><img src="{% static "themes/switch/images/clr/cyborg.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="cerulean"><img src="{% static "themes/switch/images/clr/cerulean.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="journal"><img src="{% static "themes/switch/images/clr/journal.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="readable"><img src="{% static "themes/switch/images/clr/readable.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="simplex"><img src="{% static "themes/switch/images/clr/simplex.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="slate"><img src="{% static "themes/switch/images/clr/slate.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="spacelab"><img src="{% static "themes/switch/images/clr/spacelab.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="united"><img src="{% static "themes/switch/images/clr/united.png" %}" alt="bootstrap business templates"></a>
-            <p style="margin:0;line-height:normal;margin-left:-10px;display:none;"><small>These are just examples and you can build your own color scheme in the backend.</small></p>
-        </div>
-        <div class="themeName">Background Patterns </div>
-        <div class="images patterns">
-            <a href="{% static "themes/css/#" %}" name="pattern1"><img src="{% static "themes/switch/images/pattern/pattern1.png" %}" alt="bootstrap business templates" class="active"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern2"><img src="{% static "themes/switch/images/pattern/pattern2.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern3"><img src="{% static "themes/switch/images/pattern/pattern3.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern4"><img src="{% static "themes/switch/images/pattern/pattern4.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern5"><img src="{% static "themes/switch/images/pattern/pattern5.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern6"><img src="{% static "themes/switch/images/pattern/pattern6.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern7"><img src="{% static "themes/switch/images/pattern/pattern7.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern8"><img src="{% static "themes/switch/images/pattern/pattern8.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern9"><img src="{% static "themes/switch/images/pattern/pattern9.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern10"><img src="{% static "themes/switch/images/pattern/pattern10.png" %}" alt="bootstrap business templates"></a>
-
-            <a href="{% static "themes/css/#" %}" name="pattern11"><img src="{% static "themes/switch/images/pattern/pattern11.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern12"><img src="{% static "themes/switch/images/pattern/pattern12.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern13"><img src="{% static "themes/switch/images/pattern/pattern13.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern14"><img src="{% static "themes/switch/images/pattern/pattern14.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern15"><img src="{% static "themes/switch/images/pattern/pattern15.png" %}" alt="bootstrap business templates"></a>
-
-            <a href="{% static "themes/css/#" %}" name="pattern16"><img src="{% static "themes/switch/images/pattern/pattern16.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern17"><img src="{% static "themes/switch/images/pattern/pattern17.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern18"><img src="{% static "themes/switch/images/pattern/pattern18.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern19"><img src="{% static "themes/switch/images/pattern/pattern19.png" %}" alt="bootstrap business templates"></a>
-            <a href="{% static "themes/css/#" %}" name="pattern20"><img src="{% static "themes/switch/images/pattern/pattern20.png" %}" alt="bootstrap business templates"></a>
-
-        </div>
-    </div>
-</div>
 {# ------javascript #}
 {% block script %}{% endblock %}
 {# ------endjavascript #}

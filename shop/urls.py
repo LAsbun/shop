@@ -24,12 +24,13 @@ urlpatterns = [
         upload_image,name='upload_image'),
 
     url(r'^admin/', include(admin.site.urls)),
+     # 购物车
+    url(r'^basket/', include(basket_url, namespace='basket')),
     # 登录注册相关
-    url(r'^customer/', include(customer_urls)),
+    url(r'^customer/', include(customer_urls, namespace='customer')),
     # 分类，产品相关
     url(r'^category/', include(category_url, namespace='category')),
-    # 购物车
-    url(r'^basket/', include(basket_url)),
+
     # 首页
     url(r'^$', index, name="index"),
 ]

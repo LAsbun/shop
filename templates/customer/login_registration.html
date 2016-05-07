@@ -19,7 +19,7 @@
         <div class="span4">
             <div class="well">
                 <h5>已经注册？</h5>
-                <form action="{% url 'login' %}" method="post">
+                <form action="{% url 'customer:login' %}" method="post">
                     {% csrf_token %}
                     {% if login_form.non_field_errors %}
                         {% for error in login_form.name_field_errors %}
@@ -62,7 +62,7 @@
             <div class="well">
                 <h5>注册账户？</h5><br/>
 
-                <form action="{% url 'registration' %}" method="post">
+                <form action="{% url 'customer:registration' %}" method="post">
                     {% csrf_token %}
                     {% if registration_form.non_field_errors %}
                         {% for error in registration_form.name_field_errors %}

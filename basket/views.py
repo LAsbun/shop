@@ -1,12 +1,14 @@
 #coding:utf-8
 from datetime import datetime
+import json
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, HttpResponse
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.template import RequestContext
 # Create your views here.
 
 from category.views import index
@@ -51,13 +53,43 @@ def add_to_basket(request, pk):
         except Exception, e:
             print e
             return redirect(index)
-        # msg['product_list'] = map(get_product, list(bsobj.all_lines()))
-        # print msg['product_list'][0].image.url
-        msg['quantity'] = quantity
-        msg['basket'] = bsobj
-        return render_to_response('basket/show_basket.html', msg)
+        return redirect('basket:show_basket')
+
     return HttpResponseRedirect(reverse('category:product_detail', kwargs={'id':pk}))
 
+@login_required(login_url='/customer/login')
+def show_basket(request):
+    msg = {}
 
-def get_product(line):
-    return Product.objects.get(id=line.product.id)
+    username = request.session.get('is_login', None)
+    if username:
+        msg['user'] = username
+        msg['logout'] = 'Logout'
+
+    try:
+        bsobj = Basket.objects.get(owner__username=username)
+    except:
+        bsobj = None
+    msg['basket'] = bsobj
+    return render_to_response('basket/show_basket.html', msg, context_instance=RequestContext(request))
+
+# 删除购物车里面的商品
+def remove_product_line(request):
+
+    msg = {'status':0}
+
+    if request.method == 'POST':
+        id = request.POST.get('id', None)
+        if id == None:
+            return redirect(index)
+
+        try:
+            lineobj = Line.objects.get(product__id=id)
+            lineobj.delete()
+        except:
+            return redirect(index)
+        msg['status'] = 1
+        return HttpResponse(json.dumps(msg))
+
+    else:
+        return redirect(index)

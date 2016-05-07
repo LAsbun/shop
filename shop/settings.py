@@ -46,8 +46,9 @@ INSTALLED_APPS = (
     'treebeard',
     # myapp
     'customer',
-    'category',
     'basket',
+    'category',
+
     'order',
 )
 

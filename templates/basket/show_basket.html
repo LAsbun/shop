@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load mul from basket_tags %}
+{% load static %}
 
 {% block content %}
     <div class="span9">
@@ -13,121 +14,144 @@
             </a>
         </h3>
         <hr class="soft">
+    {% if basket.num_lines > 0 %}
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>Product</th>
-                <th>Description</th>
-                <th>Quantity/Update</th>
-                <th>Price</th>
-                <th>Total</th>
+                <th>商品</th>
+                <th>名称</th>
+                <th>数量</th>
+                <th>单价</th>
+                <th>商品总价</th>
             </tr>
             </thead>
-{#        {% for line in basket.all_lines %}#}
-{#            {{  line.product.name}}#}
-{#        {% endfor %}#}
+            {#        {% for line in basket.all_lines %}#}
+            {#            {{  line.product.name}}#}
+            {#        {% endfor %}#}
             <tbody>
             {% for line in basket.all_lines %}
                 <tr>
-                    <td> <img width="60" src="{{ line.product.image.url }}" alt=""></td>
-                    <td>{{ line.product.name }}
+                    <td> <a href="{% url 'category:product_detail' line.product.id %}">
+                        <img width="60" src="{{ line.product.image.url }}" alt="">
+                    </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'category:product_detail' line.product.id %}">
+                            {{ line.product.name }}
+                        </a>
                     <td>
                         <div class="input-append">
                             <input class='span3' type="number" size="6" placeholder="{{ line.quantity }}"
-                                    min="1" max="{{ line.product.store_count }}" name="quantity_{{ line.product.name }}"/>
-{#                            <input style="max-width:34px" placeholder="{{ line.quantity }}"#}
-{#                                   id="appendedInputButtons" size="16" type="number" min="1" max="{{ line.product.store_count }}">#}
-                            <button class="btn" type="button">
+                                   min="1" max="{{ line.product.store_count }}" name="quantity_{{ line.product.id }}"/>
+                            {#                            <input style="max-width:34px" placeholder="{{ line.quantity }}"#}
+                            {#                                   id="appendedInputButtons" size="16" type="number" min="1" max="{{ line.product.store_count }}">#}
+                            <button class="btn" type="button" onclick="minunum(this)">
                                 <i class="icon-minus"></i>
                             </button>
-                            <button class="btn" type="button">
+                            <button class="btn" type="button" onclick="addnum(this)">
                                 <i class="icon-plus"></i>
                             </button>
-                            <button class="btn btn-danger" type="button">
+                            <button class="btn btn-danger" type="button" onclick="remove_product(this)">
                                 <i class="icon-remove icon-white"></i>
                             </button>
                         </div>
                     </td>
-                    <td>￥{{ line.product.retail}}</td>
+                    <td >￥{{ line.product.retail}}</td>
                     <td id="single_product_total" >￥{{ line.product.retail|mul:line.quantity }}</td>
                 </tr>
             {% endfor %}
 
             <tr>
-                <td colspan="6" style="text-align:right">Total Price:	</td>
-                <td id="total_price"> $228.00</td>
-            </tr>
-            <tr>
-                <td colspan="6" style="text-align:right"><strong>TOTAL =</strong></td>
-                <td id="total_price" class="label label-important" style="display:block"> <strong> $155.00 </strong></td>
+                <td colspan="6" style="text-align:right"><strong>总计 =</strong></td>
+                <td id="total_price" class="btn btn-default" style="display:block"> <strong> </strong></td>
             </tr>
             </tbody>
         </table>
-
-
-        <table class="table table-bordered">
-            <tbody>
-            <tr>
-                <td>
-                    <form class="form-horizontal">
-                        <div class="control-group">
-                            <label class="control-label"><strong> VOUCHERS CODE: </strong> </label>
-                            <div class="controls">
-                                <input type="text" class="input-medium" placeholder="CODE">
-                                <button type="submit" class="btn"> ADD </button>
-                            </div>
-                        </div>
-                    </form>
-                </td>
-            </tr>
-
-            </tbody>
-        </table>
-
-        <table class="table table-bordered">
-            <tbody><tr><th>ESTIMATE YOUR SHIPPING </th></tr>
-            <tr>
-                <td>
-                    <form class="form-horizontal">
-                        <div class="control-group">
-                            <label class="control-label" for="inputCountry">Country </label>
-                            <div class="controls">
-                                <input type="text" id="inputCountry" placeholder="Country">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="inputPost">Post Code/ Zipcode </label>
-                            <div class="controls">
-                                <input type="text" id="inputPost" placeholder="Postcode">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <div class="controls">
-                                <button type="submit" class="btn">ESTIMATE </button>
-                            </div>
-                        </div>
-                    </form>
-                </td>
-            </tr>
-            </tbody></table>
+    {% else %}
+        <h2> 您还没有选购商品 </h2>
+    {% endif %}
         <a href="products.html" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
         <a href="login.html" class="btn btn-large pull-right">Next <i class="icon-arrow-right"></i></a>
-
     </div>
 {% endblock %}
 
 {% block javascript %}
+    // ready-------------
     $(document).ready(function(){
+    calculate_total();
+    }); //end ready --------------------------
 
+
+    // 数量减--------------------------------------------------------------
+    function minunum(doc){
+    var num = $(doc).prev()[0];
+    if(num.placeholder > num.min){
+    num.placeholder -= 1;
+    }
+    calculate_single_product_total(doc, num.placeholder);
+    calculate_total();
+    } //end 数量减---------------------------------------------------------------------
+
+    // 数量加---------------------------------------------------------------------
+    function addnum(doc){
+    var num = $(doc).prev().prev()[0];
+    //console.log(num);
+    if(parseInt(num.placeholder) < num.max){
+    num.placeholder = parseInt(num.placeholder)+1;
+    }
+    calculate_single_product_total(doc, num.placeholder);
+    calculate_total();
+    }  //end 数量加------------------------------------------------------------------------
+
+    // 总计---------------------------------------------------------------------
+    function calculate_total(){
     con = $('td#single_product_total');
     var sum = 0.0;
     for(var i = 0; i < con.length; ++ i)
     {
-        sum += parseFloat(con[i].innerHTML.slice(1));
+    sum += parseFloat(con[i].innerHTML.slice(1));
     }
     $("td#total_price")[0].innerHTML ='￥'+sum;
     $("td#total_price")[0].style.color="red";
-    $("td#total_price")[1].innerHTML ='￥'+sum;
-});
+    } //end // 总计---------------------------------------------------------------------
 
+    // 计算单个商品的总价钱--------------------------------------------------------------------------
+    function calculate_single_product_total(doc, num){
+    // console.log(num)
+    var price = $(doc).parent().parent().parent().children()[3].innerHTML;
+    var total_price = $(doc).parent().parent().parent().children()[4];
+    total_price.innerHTML = price[0]+parseFloat(price.slice(1))*num;
+    //console.log(parseFloat(price[1]));
+    }// end 计算单个商品的总价钱--------------------------------------------------------------------------
+
+    // 删除购物车中的商品---------------------------------------------------------------
+    function remove_product(doc){
+        var paren = $(doc).parent().parent().parent()[0];
+        var id = $(doc).prev().prev().prev()[0]['name'].split('_')[1];
+        paren.remove();
+        console.log(id);
+
+        $.ajax({
+            url: "{% url 'basket:remove_product_line' %}",
+            data:{
+                id:id,
+                csrfmiddlewaretoken: $.cookie('csrftoken'),
+            },
+            type:'POST',
+            success:function(callback){
+                var temp = jQuery.parseJSON(callback);
+                if(temp.status == 1){
+                    paren.remove();
+                }
+
+                calculate_total();
+                console.log(jQuery.parseJSON(callback));//paren.remove();
+            }
+        })
+    }// end 删除购物车中的商品---------------------------------------------------------------
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'js/jquery/jquery.cookie.js' %}"></script>
 {% endblock %}
