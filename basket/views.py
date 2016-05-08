@@ -71,7 +71,7 @@ def show_basket(request):
     except:
         bsobj = None
     msg['basket'] = bsobj
-    return render_to_response('basket/show_basket.html', msg, context_instance=RequestContext(request))
+    return render_to_response('show_basket.html', msg, context_instance=RequestContext(request))
 
 # 删除购物车里面的商品
 def remove_product_line(request):

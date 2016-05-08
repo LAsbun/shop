@@ -48,7 +48,6 @@ INSTALLED_APPS = (
     'customer',
     'basket',
     'category',
-
     'order',
 )
 
@@ -165,7 +164,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'images/upload/')
 IMAGE_UPLOAD_FOLDER = 'images'
 
 # Address settings
-OSCAR_REQUIRED_ADDRESS_FIELDS = ('first_name', 'last_name', 'line1',
+REQUIRED_ADDRESS_FIELDS = ('first_name', 'last_name', 'line1',
                                  'line4', 'postcode', 'country')
 
 # Basket settings

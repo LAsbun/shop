@@ -106,7 +106,7 @@ def product_detail(request, id):
         bsobj = None
     msg['basket'] = bsobj
     # -----------------
-    return  render_to_response('category/product_detail.html', msg, context_instance=RequestContext(request))
+    return  render_to_response('product_detail.html', msg, context_instance=RequestContext(request))
 
 def get_relate_product(id):
     # 得到相关的商品
@@ -193,7 +193,7 @@ def category_list(request, cate):
             bsobj = None
         msg['basket'] = bsobj
         # -----------------
-        return render_to_response('category/categoties.html', msg)
+        return render_to_response('categoties.html', msg)
 
     except Exception, e:
         print e

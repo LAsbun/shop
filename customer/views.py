@@ -59,8 +59,8 @@ def login(request):
             if nex != 'None':
 
                 temp = nex.split('/') #处理next_url
-
-                if temp[-1] != u'':
+                print temp[-1]
+                if temp[-1] != u'' and len(temp) == 4:
                     return redirect(reverse('%s:%s' %(temp[1],temp[2]), kwargs={'pk':try_int(temp[3])}))
                 else:
                     return redirect(reverse('%s:%s' %(temp[1],temp[2]), kwargs={}))
@@ -68,12 +68,12 @@ def login(request):
                 return redirect(index)
         else:
             msg['login_form'] = form
-            return render_to_response('customer/login_registration.html', msg, context_instance=RequestContext(request))
+            return render_to_response('login_registration.html', msg, context_instance=RequestContext(request))
 
 
     msg['login_form'] = UserLoginForm()
 
-    return render_to_response('customer/login_registration.html', msg, context_instance=RequestContext(request))
+    return render_to_response('login_registration.html', msg, context_instance=RequestContext(request))
 
 def registration(request):
     msg = {}
@@ -98,12 +98,12 @@ def registration(request):
         else:
             print 's'
             msg['registration_form'] = formss
-            return render_to_response('customer/login_registration.html', msg, context_instance=RequestContext(request))
+            return render_to_response('login_registration.html', msg, context_instance=RequestContext(request))
 
     msg['registration_form'] = EmailUserCreationForm()
 
 
-    return render_to_response('customer/login_registration.html', msg, context_instance=RequestContext(request))
+    return render_to_response('login_registration.html', msg, context_instance=RequestContext(request))
 
 def logout(request):
     request.session['is_login'] = None
